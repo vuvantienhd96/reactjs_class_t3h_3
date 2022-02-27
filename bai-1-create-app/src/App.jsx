@@ -1,30 +1,27 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-
+import Contacts from './components/Contacts';
+import { Header, HeaderTwo } from './components/Header';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // class component
-class App extends Component { 
-  constructor(props){
+class App extends Component {
+  constructor(props) {
     super(props);
   }
-
-   // this.props
-   // this.state
-   // jsx
-
-  render(){
+  //  state -- trang thai
+  render() {
     return (
       <div className="App">
-       <a href='#'>learn react</a>
+        <HeaderTwo branding={"Manager App"} />
+        <div className='container'>
+          <Contacts />
+        </div>
       </div>
+
     );
   }
-  // render(){
-  //   return (
-  //     React.createElement('div', {className: 'App'}, React.createElement('a', {href: '#'}, 'learn react'))
-  //   );
-  // }
+
 }
 
 export default App;
