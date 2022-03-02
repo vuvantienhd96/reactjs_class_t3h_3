@@ -1,59 +1,26 @@
 import React, { Component } from 'react'
 import Contact from './Contact';
+import { Consumer } from './../context';
 
 export default class Contacts extends Component {
-    constructor(props) {
-        super(props);
-        // initial state
-        this.state = {
-            contacts: [
-                {   id: 1,
-                    name: "test1",
-                    email: "test1@gamil.com",
-                    phone: "+84 333 5555"
-                },
-                {
-                    id: 2,
-                    name: "test2",
-                    email: "test2@gamil.com",
-                    phone: "+84 444 5555"
-                },
-                {
-                    id: 3,
-                    name: "test3",
-                    email: "test3@gamil.com",
-                    phone: "+84 555 5555"
-                },
-            ]
-        }
-    }
-
-    deleteContact = (id) => {
-        console.log('this is father, deleteContact');
-        console.log('$id',id);
-        const { contacts } = this.state;
-        // todo somthing
-        const newContacts = contacts.filter(
-            contact => contact.id !== id
-            
-        )
-        this.setState({
-            contacts: newContacts
-        });
-    }
-
+   
     render() {
-        const { contacts } = this.state;
         return (
-            <div>
-                {contacts.map(contact =>
-                    <Contact 
-                        contact={contact}
-                        key={contact.id}
-                        deleteClickHandler={this.deleteContact}
-                    />
-                )}
-            </div>
+            <Consumer>
+                {value => {
+                    const { contacts } = value;
+                    return (
+                        <React.Fragment>
+                            {contacts.map(contact =>
+                                <Contact
+                                    contact={contact}
+                                    key={contact.id}
+                                />
+                            )}
+                        </React.Fragment>
+                    )
+                }}
+            </Consumer>
         )
     }
 }

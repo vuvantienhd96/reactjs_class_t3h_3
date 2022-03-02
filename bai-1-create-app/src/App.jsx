@@ -3,6 +3,7 @@ import './App.css';
 import Contacts from './components/Contacts';
 import { Header, HeaderTwo } from './components/Header';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Provider } from './context';
 
 // class component
 class App extends Component {
@@ -12,12 +13,14 @@ class App extends Component {
   //  state -- trang thai
   render() {
     return (
-      <div className="App">
-        <HeaderTwo branding={"Manager App"} />
-        <div className='container'>
-          <Contacts />
+      <Provider>
+        <div className="App">
+          <HeaderTwo branding={"Manager App"} />
+          <div className='container'>
+            <Contacts />
+          </div>
         </div>
-      </div>
+      </Provider>
 
     );
   }
