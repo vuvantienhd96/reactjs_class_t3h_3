@@ -5,6 +5,7 @@ import { Header, HeaderTwo } from './components/layouts/Header';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from './context';
 import AddContact from './components/contacts/AddContact';
+import AddContactUnControlled from './components/contacts/AddContact2';
 
 // class component
 class App extends Component {
@@ -18,7 +19,8 @@ class App extends Component {
         <div className="App">
           <HeaderTwo branding={"Manager App"} />
           <div className='container'>
-            <AddContact />
+            {/* <AddContact /> */}
+            <AddContactUnControlled />
             <Contacts />
           </div>
         </div>
