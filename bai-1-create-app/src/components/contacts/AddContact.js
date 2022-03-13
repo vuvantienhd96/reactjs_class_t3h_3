@@ -46,7 +46,10 @@ export default class AddContact extends Component {
             email: '',
             phone: '',
             errors: {},
-        })
+        });
+
+        // go back to home
+        this.props.history.push('/');
 
     }
 

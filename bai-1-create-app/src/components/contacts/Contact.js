@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import './Contact.css';
 import { Consumer } from '../../context';
+import { Link } from 'react-router-dom'
 
 export default class Contact extends Component {
 
@@ -34,7 +35,6 @@ export default class Contact extends Component {
 
     render() {
         const { name, phone, email, id } = this.props.contact;
-        console.log('render ======', this.state.number);
         return (
             <Consumer>
                 {value => {
@@ -43,6 +43,8 @@ export default class Contact extends Component {
                         <div className='card card-body mb-3'>
                             <h4>{name}
                                 <i className='fas fa-sort-down' style={{ cursor: 'pointer' }} onClick={this.onShowClick} />
+                                <Link to={`/contact/${id}`}><i className="fas fa-user" style={{ cursor: 'pointer', float: 'right' }}></i></Link>
+                                <p></p>
                                 <i className='fas fa-times'
                                     style={{ cursor: 'pointer', float: 'right' }}
                                     onClick={this.onDeleteClick.bind(this, id, dispatch)}
