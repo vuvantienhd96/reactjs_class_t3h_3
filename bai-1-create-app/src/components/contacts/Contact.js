@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './Contact.css';
 import { Consumer } from '../../context';
 import { Link } from 'react-router-dom'
+import axios from 'axios';
 
 export default class Contact extends Component {
 
@@ -30,7 +31,9 @@ export default class Contact extends Component {
     }
 
     onDeleteClick = (id, dispatch) => {
-        dispatch({type: 'DELETE_CONTACT', payload: id});
+        axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
+        .then(res => dispatch({type: 'DELETE_CONTACT', payload: id})).catch(err => console.log(err));
+        
     }
 
     render() {
