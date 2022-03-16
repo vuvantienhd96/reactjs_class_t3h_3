@@ -11,6 +11,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import About from './components/pages/About';
 import ContactDetail from './components/contacts/ContactDetail';
 import NotFound from './components/pages/NotFound';
+import Footer from './components/layouts/Footer';
+import Test from './components/test/Test';
 
 // class component
 class App extends Component {
@@ -30,9 +32,11 @@ class App extends Component {
                 <Route exact path="/contact/add" component={AddContact}/>
                 <Route exact path="/about" component={About}/>
                 <Route exact path="/contact/:id" component={ContactDetail}/>
+                <Route exact path="/test" component={Test}/>
                 <Route component={NotFound}></Route>
               </Switch>
             </div>
+            <Footer />
           </div>
         </Router>
       </Provider>
