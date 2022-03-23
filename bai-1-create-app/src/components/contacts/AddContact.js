@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Consumer } from '../../context';
 import { v4 as uuidv4 } from 'uuid';
 import TextInputGroup from '../layouts/TextInputGroup';
+import axios from 'axios';
+import { urlApi } from '../../helper/helper';
 
 
 export default class AddContact extends Component {
@@ -14,7 +16,8 @@ export default class AddContact extends Component {
     }
     // controlled from
     onChange = (e) => this.setState({ [e.target.name]: e.target.value });
-    onSubmit = (dispatch, e) => {
+
+    onSubmit = async (dispatch, e) => {
         e.preventDefault();
         const { name, email, phone } = this.state;
         // check for errors
@@ -32,14 +35,25 @@ export default class AddContact extends Component {
         }
        
         const newContact = {
-            id: uuidv4(),
+            // id: uuidv4(),
             name,
             phone,
             email,
         }
 
-        dispatch({type: 'ADD_CONTACT', payload: newContact})
-         
+        // axios.post(urlApi, newContact).then(res => dispatch({type: 'ADD_CONTACT', payload: res.data}))
+
+        // async await
+        try {
+            const res = await axios.post(urlApi, newContact);
+            dispatch({type: 'ADD_CONTACT', payload: res.data});
+        } catch (error) {
+            console.log(error);
+        }
+        
+        // ctrl + P : search file 
+        // ctrl + shift+ f: search key word
+        
         // clear state
         this.setState({
             name: '',

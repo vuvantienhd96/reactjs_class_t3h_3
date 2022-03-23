@@ -4,6 +4,7 @@ import './Contact.css';
 import { Consumer } from '../../context';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
+import { urlApi } from '../../helper/helper';
 
 export default class Contact extends Component {
 
@@ -30,9 +31,19 @@ export default class Contact extends Component {
         })
     }
 
-    onDeleteClick = (id, dispatch) => {
-        axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
-        .then(res => dispatch({type: 'DELETE_CONTACT', payload: id})).catch(err => console.log(err));
+    onDeleteClick = async (id, dispatch) => {
+        // axios.delete(`${urlApi}${id}`)
+        // .then(res => dispatch({type: 'DELETE_CONTACT', payload: id})).catch(err => console.log(err));
+         
+        // async await
+        try {
+            await axios.delete(`${urlApi}${id}`);
+            dispatch({type: 'DELETE_CONTACT', payload: id});
+        } catch (error) {
+            console.log("errr", error);
+        }
+        
+
         
     }
 
