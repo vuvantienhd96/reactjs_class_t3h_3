@@ -13,6 +13,7 @@ import ContactDetail from './components/contacts/ContactDetail';
 import NotFound from './components/pages/NotFound';
 import Footer from './components/layouts/Footer';
 import Test from './components/test/Test';
+import EditContact from './components/contacts/EditContact';
 
 // class component
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={Contacts}/>
                 <Route exact path="/contact/add" component={AddContact}/>
+                <Route exact path="/contact/edit/:id" component={EditContact}/>
                 <Route exact path="/about" component={About}/>
                 <Route exact path="/contact/:id" component={ContactDetail}/>
                 <Route exact path="/test" component={Test}/>

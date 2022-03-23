@@ -55,6 +55,7 @@ export default class Contact extends Component {
                     const { dispatch, contacts } = value;
                     return (
                         <div className='card card-body mb-3'>
+                            <p><Link to={`/contact/edit/${id}`}>Go to edit &gt;</Link></p>
                             <h4>{name}
                                 <i className='fas fa-sort-down' style={{ cursor: 'pointer' }} onClick={this.onShowClick} />
                                 <Link to={`/contact/${id}`}><i className="fas fa-user" style={{ cursor: 'pointer', float: 'right' }}></i></Link>
