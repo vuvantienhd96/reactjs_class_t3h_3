@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import './Contact.css';
-import { Consumer } from '../../context';
 import { Link } from 'react-router-dom'
 
 export default class Contact extends Component {
@@ -30,35 +29,29 @@ export default class Contact extends Component {
     }
 
     onDeleteClick = (id, dispatch) => {
-        dispatch({type: 'DELETE_CONTACT', payload: id});
+        // dispatch({ type: 'DELETE_CONTACT', payload: id });
     }
 
     render() {
         const { name, phone, email, id } = this.props.contact;
         return (
-            <Consumer>
-                {value => {
-                    const { dispatch, contacts } = value;
-                    return (
-                        <div className='card card-body mb-3'>
-                            <h4>{name}
-                                <i className='fas fa-sort-down' style={{ cursor: 'pointer' }} onClick={this.onShowClick} />
-                                <Link to={`/contact/${id}`}><i className="fas fa-user" style={{ cursor: 'pointer', float: 'right' }}></i></Link>
-                                <p></p>
-                                <i className='fas fa-times'
-                                    style={{ cursor: 'pointer', float: 'right' }}
-                                    onClick={this.onDeleteClick.bind(this, id, dispatch)}
-                                />
-                            </h4>
-                            {this.state.onShow && <ul className='list-group'>
-                                <li className='list-group-item'>Email: {email}</li>
-                                <li className='list-group-item'>Phone: {phone}</li>
-                            </ul>}
 
-                        </div>
-                    )
-                }}
-            </Consumer>
+            <div className='card card-body mb-3'>
+                <h4>{name}
+                    <i className='fas fa-sort-down' style={{ cursor: 'pointer' }} onClick={this.onShowClick} />
+                    <Link to={`/contact/${id}`}><i className="fas fa-user" style={{ cursor: 'pointer', float: 'right' }}></i></Link>
+                    <p></p>
+                    <i className='fas fa-times'
+                        style={{ cursor: 'pointer', float: 'right' }}
+                        onClick={this.onDeleteClick.bind(this, id)}
+                    />
+                </h4>
+                {this.state.onShow && <ul className='list-group'>
+                    <li className='list-group-item'>Email: {email}</li>
+                    <li className='list-group-item'>Phone: {phone}</li>
+                </ul>}
+
+            </div>
         )
     }
 }

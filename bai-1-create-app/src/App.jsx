@@ -3,8 +3,12 @@ import './App.css';
 import Contacts from './components/contacts/Contacts';
 import { Header, HeaderTwo } from './components/layouts/Header';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Provider } from './context';
 import AddContact from './components/contacts/AddContact';
+
+// import redux
+import { Provider } from 'react-redux';
+import store from './store';
+
 
 // import router
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -19,7 +23,7 @@ class App extends Component {
   //  state -- trang thai
   render() {
     return (
-      <Provider>
+      <Provider store={store}>
         <Router>
           <div className="App">
             <HeaderTwo branding={"Manager App"} />
@@ -34,7 +38,6 @@ class App extends Component {
           </div>
         </Router>
       </Provider>
-
     );
   }
 
