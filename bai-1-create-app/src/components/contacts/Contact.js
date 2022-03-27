@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import './Contact.css';
-import { Link } from 'react-router-dom'
-
-export default class Contact extends Component {
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { deleteContacts } from '../../actions/contactActions';
+ class Contact extends Component {
 
     constructor(props) {
         super(props);
@@ -28,8 +29,8 @@ export default class Contact extends Component {
         })
     }
 
-    onDeleteClick = (id, dispatch) => {
-        // dispatch({ type: 'DELETE_CONTACT', payload: id });
+    onDeleteClick = id => {
+       this.props.deleteContacts(id);
     }
 
     render() {
@@ -59,4 +60,7 @@ export default class Contact extends Component {
 
 Contact.propTypes = {
     contact: PropTypes.object.isRequired,
+    deleteContacts: PropTypes.func.isRequired,
 }
+
+export default connect(null, { deleteContacts })(Contact);
