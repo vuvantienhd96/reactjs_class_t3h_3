@@ -1,46 +1,31 @@
 import React, { Component } from 'react';
 import './App.css';
-import Contacts from './components/contacts/Contacts';
-import { Header, HeaderTwo } from './components/layouts/Header';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AddContact from './components/contacts/AddContact';
-
-// import redux
-import { Provider } from 'react-redux';
-import store from './store';
-
 
 // import router
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import About from './components/pages/About';
-import ContactDetail from './components/contacts/ContactDetail';
-
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import Home from './components/Home';
+import Contact from './components/Contact';
 // class component
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-  //  state -- trang thai
-  render() {
-    return (
-      <Provider store={store}>
-        <Router>
-          <div className="App">
-            <HeaderTwo branding={"Manager App"} />
-            <div className='container'>
-              <Switch>
-                <Route exact path="/" component={Contacts}/>
-                <Route exact path="/contact/add" component={AddContact}/>
-                <Route exact path="/about" component={About}/>
-                <Route exact path="/contact/:id" component={ContactDetail}/>
-              </Switch>
-            </div>
-          </div>
-        </Router>
-      </Provider>
-    );
-  }
 
+
+function App() {
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Contact />}>
+              <Route index element={<Home />} />
+              <Route path="/contact" element={<Contact />}>
+            </Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>,
+    </>
+  );
 }
-
 export default App;
