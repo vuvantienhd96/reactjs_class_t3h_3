@@ -33,7 +33,6 @@ class AddContact extends Component {
         }
 
         const newContact = {
-            id: uuidv4(),
             name,
             phone,
             email,

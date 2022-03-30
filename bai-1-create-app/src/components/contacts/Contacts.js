@@ -5,27 +5,32 @@ import PropTypes from 'prop-types';
 import { GET_CONTACTS } from '../../actions/types';
 import { getContacts } from '../../actions/contactActions';
 
+// meterial ui
+import Button from '@mui/material/Button';
 class Contacts extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            
+
         }
     }
-
-    componentDidMount(){
+    componentDidMount() {
         this.props.getContacts();
     }
 
     render() {
-
         const { contacts } = this.props;
         return (
             <React.Fragment>
                 <h1 className='display-4 mb-2'>
                     <span className='text-danger'>Contact </span>List
                 </h1>
+                {/* <button>xinchao</button>
+                <Button color="secondary">Secondary</Button>
+                <Button variant="contained" color="success">
+                    Success
+                </Button> */}
                 {contacts.map(contact =>
                     <Contact
                         contact={contact}
@@ -46,4 +51,4 @@ const mapStatetoProps = (state) => ({
     contacts: state.contact.contacts
 });
 
-export default connect(mapStatetoProps, {getContacts})(Contacts)
+export default connect(mapStatetoProps, { getContacts })(Contacts)
