@@ -12,11 +12,14 @@ import Home from './components/Home';
 import Contact from './components/Contact';
 // class component
 
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 function App() {
   return (
     <>
       <BrowserRouter>
+      <Provider store={store}>
         <Routes>
           <Route path="/" element={<Contact />}>
               <Route index element={<Home />} />
@@ -24,8 +27,10 @@ function App() {
             </Route>
           </Route>
         </Routes>
+        </Provider>
       </BrowserRouter>,
     </>
   );
 }
 export default App;
+
