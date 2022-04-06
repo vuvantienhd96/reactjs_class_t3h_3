@@ -14,19 +14,21 @@ import Contact from './components/Contact';
 
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import LoginRef from './pages/LoginRef';
 
 function App() {
   return (
     <>
       <BrowserRouter>
-      <Provider store={store}>
-        <Routes>
-          <Route path="/" element={<Contact />}>
-              <Route index element={<Home />} />
-              <Route path="/contact" element={<Contact />}>
-            </Route>
-          </Route>
-        </Routes>
+        <Provider store={store}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/loginRef" element={<LoginRef />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
         </Provider>
       </BrowserRouter>,
     </>

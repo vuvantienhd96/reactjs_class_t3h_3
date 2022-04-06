@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, Link } from 'react-router-dom'
 
@@ -10,18 +10,23 @@ import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import SendIcon from '@mui/icons-material/Send';
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
 
 
-export default function Login() {
+export default function LoginRef() {
 
     const [values, setValues] = React.useState({
-        email: '',
-        password: '',
         showPassword: false,
-      });
+    });
+
+    // refvalue
+    const emailRef = useRef();
+    const passWordRef = useRef();
 
     const handleLogin = () => {
-
+        console.log('$email',emailRef.current.value);
+        console.log('$passWordRef',passWordRef.current.value);
     }
 
     const handleGooleLogin = () => {
@@ -53,7 +58,7 @@ export default function Login() {
         <div id="loginform">
             <Card sx={{ minWidth: 275 }}>
                 <CardContent>
-                    <form className='form-login' onSubmit={handleLogin}>
+                    <form className='form-login'>
                         <Typography variant="h4" gutterBottom component="div">
                             Sign In
                         </Typography>
@@ -68,7 +73,7 @@ export default function Login() {
                                     multiline
                                     maxRows={4}
                                     value={values.email}
-                                    onChange={handleChange('email')}
+                                    inputRef={emailRef}
                                 />
                             </FormControl>
                             <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
@@ -77,7 +82,7 @@ export default function Login() {
                                     id="outlined-adornment-password"
                                     type={values.showPassword ? 'text' : 'password'}
                                     value={values.password}
-                                    onChange={handleChange('password')}
+                                    inputRef={passWordRef}
                                     endAdornment={
                                         <InputAdornment position="end">
                                             <IconButton
@@ -93,6 +98,10 @@ export default function Login() {
                                     label="Password"
                                 />
                             </FormControl>
+                            <Button variant="contained" onClick={handleLogin} endIcon={<SendIcon />}>
+                                Login
+                            </Button>
+
                         </Box>
 
                         <Typography variant="h6" gutterBottom component="div">
@@ -112,7 +121,14 @@ export default function Login() {
                                 </Button>
                             </div>
                         </Box>
-
+                        <Typography variant="h6" gutterBottom component="div">
+                            If u dont have an account, u can click here 
+                        </Typography>
+                        <Link to='/register'>
+                                <Button color='warning' endIcon={<InsertLinkIcon />}>
+                                    Register Now
+                                </Button>
+                        </Link>
                     </form>
                 </CardContent>
             </Card>
