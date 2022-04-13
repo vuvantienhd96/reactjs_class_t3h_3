@@ -11,6 +11,8 @@ const useReducer = (state = initialState, action) => {
         case types.LOGIN_START:
         case types.REGISTER_START:
         case types.LOGOUT_START:
+            case types.LOGIN_GOOGLE_START:
+                case types.LOGIN_FACEBOOK_START:    
             return {
                 ...state,
                 loading: true,
@@ -25,6 +27,8 @@ const useReducer = (state = initialState, action) => {
         case types.REGISTER_SUCCESS:
         case types.LOGIN_SUCCESS:
         case types.SET_USER:
+        case types.lOGIN_GOOGLE_SUCCESS:
+            case types.LOGIN_FACEBOOK_SUCCESS: 
             return {
                 ...state,
                 loading: false,
@@ -33,6 +37,8 @@ const useReducer = (state = initialState, action) => {
         case types.REGISTER_FAIL:
         case types.LOGIN_FAIL:
         case types.LOGOUT_FAIL:
+        case types.LOGIN_GOOGLE_ERROR:
+            case types.LOGIN_FACEBOOK_ERROR:
             return {
                 ...state,
                 loading: false,

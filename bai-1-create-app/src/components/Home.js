@@ -47,7 +47,7 @@ export default function Home() {
     }
   }
 
-  
+  const { displayName, email, photoURL } = currentUser.multiFactor.user;
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -62,13 +62,13 @@ export default function Home() {
             <LogoutIcon color='primary' />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={displayName}
+        subheader={email}
       />
       <CardMedia
         component="img"
         height="194"
-        image="https://picsum.photos/200"
+        image={photoURL}
         alt="Paella dish"
       />
       <CardContent>

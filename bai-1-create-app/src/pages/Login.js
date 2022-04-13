@@ -10,7 +10,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { loginInit } from '../redux/actions';
+import { loginInit, loginUserFacebook, loginUserGoogle } from '../redux/actions';
 import SendIcon from '@mui/icons-material/Send';
 
 export default function Login() {
@@ -49,14 +49,14 @@ export default function Login() {
     }
 
     const handleGooleLogin = () => {
-
+        dispatch(loginUserGoogle());
     }
 
     const handleFbLogin = () => {
+        dispatch(loginUserFacebook())
 
     }
 
-   
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
       };
