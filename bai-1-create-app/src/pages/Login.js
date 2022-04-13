@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation, Link, useNavigate } from 'react-router-dom'
 
 // meterial ui
 import { Typography, Button, Card, CardContent, CardActions, Box, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material'
@@ -10,7 +10,8 @@ import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import { loginInit } from '../redux/actions';
+import SendIcon from '@mui/icons-material/Send';
 
 export default function Login() {
 
@@ -19,9 +20,32 @@ export default function Login() {
         password: '',
         showPassword: false,
       });
+    
+    const dispatch = useDispatch();
+    
+    let navigate = useNavigate();
+    
+    // get state from redux
+    const { currentUser } = useSelector((state) => state.user);
+    const token = localStorage.getItem('myCat');
+    
+    useEffect(() => {
+        if(currentUser){
+          navigate("/");
+        }
+        
+      }, [currentUser, navigate])
 
-    const handleLogin = () => {
-
+    const handleLogin = (e) => {
+        if(!values.email || !values.password){
+            return;
+        }
+        dispatch(loginInit(values.email, values.password));
+        setValues({
+            ...values,
+            password: '',
+            email: '',
+        })
     }
 
     const handleGooleLogin = () => {
@@ -94,7 +118,9 @@ export default function Login() {
                                 />
                             </FormControl>
                         </Box>
-
+                        <Button variant="contained" onClick={handleLogin} endIcon={<SendIcon />}>
+                                Login
+                        </Button>
                         <Typography variant="h6" gutterBottom component="div">
                             or
                         </Typography>
