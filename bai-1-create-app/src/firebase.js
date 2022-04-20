@@ -17,9 +17,15 @@ const firebaseConfig = {
 // back alt + <-
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+
+//const analytics = firebase.getAnalytics(firebase.initializeApp(firebaseConfig));
+firebase.initializeApp(firebaseConfig)
 const auth = firebase.auth();
 const googleAuth = new firebase.auth.GoogleAuthProvider ();
 const facebookAuthProvider = new firebase.auth.FacebookAuthProvider ();
 
-export { auth, googleAuth, facebookAuthProvider }
+// Get a reference to the database service
+ //const database = new firebase.getDatabase(firebase.initializeApp(firebaseConfig));
+export { auth, googleAuth, facebookAuthProvider}
+
+export default firebase;

@@ -18,6 +18,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logoutInit } from '../redux/actions';
+import FirebaseTestConnect from './FirebaseTestConnect';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -50,6 +51,7 @@ export default function Home() {
   const { displayName, email, photoURL } = currentUser.multiFactor.user;
 
   return (
+    <>
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
@@ -124,5 +126,7 @@ export default function Home() {
         </CardContent>
       </Collapse>
     </Card>
+    <FirebaseTestConnect />
+    </>
   );
 }
