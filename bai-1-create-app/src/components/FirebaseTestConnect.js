@@ -3,11 +3,14 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import { Alert, Button, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
-import { get, getDatabase, onValue, ref, set } from "firebase/database";
-import { v4 as uuidv4 } from 'uuid';
+import { Alert, Button, Collapse, IconButton, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { get, getDatabase, onValue, ref, remove, set } from "firebase/database";
+
 import firebase from '../firebase';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/Edit';
+import ComponentFormPopup from './componentChilds/ComponentFormPopup';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -33,19 +36,35 @@ export default function FirebaseTestConnect() {
     console.log('firebase2', firebase.firestore());
 
 
-    const [fName, setFName] = React.useState("");
-    const [lName, setLName] = React.useState("");
+    // const [fName, setFName] = React.useState("");
+    // const [lName, setLName] = React.useState("");
     const [data, listData] = React.useState([]);
     const [itemSelect, setItemSelect] = React.useState(undefined);
+    const [titleForm, setTitleForm] = React.useState("");
+    const [dataItemEdit, setDataItemEdit] = React.useState({});
 
     const [open, setOpen] = React.useState(false);
+    const [openAlert, setOpenAlert] = React.useState(false);
+
+    const [openForm, setOpenForm] = React.useState(false);
+
     const handleOpen = (id) => {
-        if(id){
+        if (id) {
             setItemSelect(id);
         }
         setOpen(true)
     };
     const handleClose = () => setOpen(false);
+    const handleCloseForm = () => setOpenForm(false);
+
+    React.useEffect(() => {
+        let test = setTimeout(() => {
+            setOpenAlert(false);
+        }, 3000);
+        return () => {
+            clearTimeout(test);
+        }
+    }, [openAlert])
 
     React.useEffect(() => {
         const db = getDatabase();
@@ -67,40 +86,82 @@ export default function FirebaseTestConnect() {
     }, [])
 
     // use Firebase insert data
-    const handleAdd = () => {
+    const handleAdd = (fname, lname, id) => {
         const db = getDatabase();
-        set(ref(db, 'UserTyping/' + uuidv4()), {
-            firstName: fName,
-            lastName: lName
-        });
-        setFName("");
-        setLName("");
+        
+        // add data to firebase
+        set(ref(db, 'UserTyping/' + id), {
+            firstName: fname,
+            lastName: lname
+        }).then(() => {
+            // Data saved successfully!
+            console.log("successFully");
+          })
+          .catch((error) => {
+            // The write failed...
+            console.log("The write failed...");
+          });
+
+        setOpenForm(false);
+        setOpenAlert(true);
     }
 
     const handleDelete = () => {
-        if(itemSelect) {
-            // delete here 
-            // debugger
-            // const db = getDatabase();
-            // const ref1 = ref(db, '/UserTyping/' + itemSelect).remove();
-            // console.log(ref1);
-            
+        if (itemSelect) {
+            const db = getDatabase();
+            remove(ref(db, '/UserTyping/' + itemSelect));
+            setOpen(false);
+            setOpenAlert(true);
         }
     }
 
-    console.log('$itemSelect', itemSelect);
+    const handleCloseAlert = () => {
+        setOpenAlert(false);
+    }
+
+    const handleShowForm = (type, data) => {
+        if (data) {
+            setDataItemEdit(data);
+        } else {
+            setDataItemEdit({});
+        }
+        setOpenForm(true);
+        setTitleForm(type);
+    }
+
+
     return (
         <Box sx={{ flexGrow: 1 }}>
+            <Collapse in={openAlert}>
+                <Alert
+                    action={
+                        <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => handleCloseAlert()}
+                        >
+                            <CloseIcon fontSize="inherit" />
+                        </IconButton>
+                    }
+
+                >update Success !</Alert>
+            </Collapse>
+
             <Grid container spacing={2}>
+
+                <ComponentFormPopup
+                    open={openForm}
+                    handleClose={handleCloseForm}
+                    type={titleForm}
+                    handleAdd={handleAdd}
+                    data={dataItemEdit}
+                />
+
                 <Grid item xs={4}>
-                    <Item>Add user</Item>
-                    <Grid item xs={6} sx={{ py: '1rem' }}>
-                        <TextField onChange={(e) => setFName(e.target.value)} name="fName" value={fName} id="outlined-firstName" label="firstName" variant="outlined" />
-                    </Grid>
-                    <Grid item xs={6} sx={{ py: '1rem' }}>
-                        <TextField onChange={(e) => setLName(e.target.value)} name="lName" value={lName} id="outlined-lastName" label="lastName" variant="outlined" />
-                    </Grid>
-                    <Button variant="contained" onClick={() => handleAdd()}>Submit</Button>
+                    <Item>
+                        <Button variant="contained" onClick={() => handleShowForm("Add")}>Add User</Button>
+                    </Item>
                 </Grid>
                 <Grid item xs={8}>
                     <Item>List User</Item>
@@ -115,7 +176,8 @@ export default function FirebaseTestConnect() {
                                                 <TableCell align="center">stt</TableCell>
                                                 <TableCell align="center">First Name</TableCell>
                                                 <TableCell align="center">Last Name</TableCell>
-                                                <TableCell align="center">Action</TableCell>
+                                                <TableCell align="center">delete</TableCell>
+                                                <TableCell align="center">edit</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -132,7 +194,10 @@ export default function FirebaseTestConnect() {
                                                     </TableCell>
                                                     <TableCell align="center">{item.lastName}</TableCell>
                                                     <TableCell align="center">
-                                                        <DeleteIcon onClick={() => handleOpen(item.id)} sx={{ cursor: 'pointer' }} color='primary' />
+                                                        <DeleteIcon sx={{ cursor: 'pointer' }} onClick={() => handleOpen(item.id)} color='primary' />
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        <EditIcon onClick={() => handleShowForm("Edit", item)} sx={{ cursor: 'pointer' }} color='primary' />
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
@@ -163,14 +228,14 @@ export default function FirebaseTestConnect() {
                         Are you sure want to delete item ?
                     </Typography>
                     <Grid container spacing={3}>
-                        <Grid item xs={6} sx={{display: 'flex', justifyContent: 'flex-start'}}>
+                        <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                             <Button variant="contained" onClick={handleClose}>Cancel</Button>
                         </Grid>
-                        <Grid item xs={6} sx={{display: 'flex', justifyContent: "end"}}>
+                        <Grid item xs={6} sx={{ display: 'flex', justifyContent: "end" }}>
                             <Button variant="contained" onClick={() => handleDelete()}>Delete</Button>
                         </Grid>
                     </Grid>
-                    
+
                 </Box>
             </Modal>
         </Box>
