@@ -3,14 +3,14 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import { Alert, Button, Collapse, IconButton, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Alert, Avatar, Button, Collapse, IconButton, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import { get, getDatabase, onValue, ref, remove, set } from "firebase/database";
 
-import firebase from '../firebase';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import ComponentFormPopup from './componentChilds/ComponentFormPopup';
+import UploadFileToFirebase from './componentChilds/UploadFileToFirebase';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -33,7 +33,6 @@ const style = {
 };
 
 export default function FirebaseTestConnect() {
-    console.log('firebase2', firebase.firestore());
 
 
     // const [fName, setFName] = React.useState("");
@@ -78,6 +77,7 @@ export default function FirebaseTestConnect() {
                     id: id,
                     firstName: data[id].firstName,
                     lastName: data[id].lastName,
+                    url: data[id].url
                 })
             }
             listData(temp);
@@ -86,21 +86,22 @@ export default function FirebaseTestConnect() {
     }, [])
 
     // use Firebase insert data
-    const handleAdd = (fname, lname, id) => {
+    const handleAdd = (fname, lname, id, imgUrl) => {
         const db = getDatabase();
-        
+
         // add data to firebase
         set(ref(db, 'UserTyping/' + id), {
             firstName: fname,
-            lastName: lname
+            lastName: lname,
+            url: imgUrl
         }).then(() => {
             // Data saved successfully!
             console.log("successFully");
-          })
-          .catch((error) => {
-            // The write failed...
-            console.log("The write failed...");
-          });
+        })
+            .catch((error) => {
+                // The write failed...
+                console.log("The write failed...");
+            });
 
         setOpenForm(false);
         setOpenAlert(true);
@@ -162,6 +163,7 @@ export default function FirebaseTestConnect() {
                     <Item>
                         <Button variant="contained" onClick={() => handleShowForm("Add")}>Add User</Button>
                     </Item>
+                   
                 </Grid>
                 <Grid item xs={8}>
                     <Item>List User</Item>
@@ -174,6 +176,7 @@ export default function FirebaseTestConnect() {
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell align="center">stt</TableCell>
+                                                <TableCell align="center">avatar</TableCell>
                                                 <TableCell align="center">First Name</TableCell>
                                                 <TableCell align="center">Last Name</TableCell>
                                                 <TableCell align="center">delete</TableCell>
@@ -188,6 +191,9 @@ export default function FirebaseTestConnect() {
                                                 >
                                                     <TableCell align="center">
                                                         {index}
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        <Avatar alt={item.url} src={item.url} />
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         {item.firstName}

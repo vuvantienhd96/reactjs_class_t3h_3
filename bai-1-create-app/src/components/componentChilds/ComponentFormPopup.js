@@ -1,6 +1,7 @@
 import { Box, Button, Grid, Modal, TextField, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import React from 'react'
+import UploadFileToFirebase from './UploadFileToFirebase';
 
 const style = {
     position: 'absolute',
@@ -24,15 +25,20 @@ export default function ComponentFormPopup({
 
     const inputElFName = React.useRef(data ? data.firstName : '');
     const inputElLName = React.useRef(data ? data.lastName : '');
+    const [id, setId] = React.useState(uuidv4());
+    const [img, setImg] = React.useState(null);
 
     const handleSubmit = () => {
         const { value } = inputElFName.current;
-        let id = uuidv4();
         // check form edit 
         if(data && data.id){
-            id = data.id;
+            setId(data.id);
         }
-        handleAdd(value, inputElLName.current.value, id);
+        handleAdd(value, inputElLName.current.value, id, img);
+    }
+
+    const _handleGetImage = (imgUrl) => {
+        setImg(imgUrl); 
     }
     console.log('$data', data);
     return (
@@ -60,6 +66,9 @@ export default function ComponentFormPopup({
                             defaultValue={data ? data.lastName : ''}
                             name="lName" 
                             id="outlined-lastName" label="lastName" variant="outlined" />
+                    </Grid>
+                    <Grid item xs={12} sx={{ py: '1rem' }}>
+                        <UploadFileToFirebase id={id} handleGetImage={_handleGetImage}/>
                     </Grid>
                     <Grid container spacing={3}>
                         <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>

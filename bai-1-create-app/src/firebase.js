@@ -1,6 +1,7 @@
 // connect and setup firebase 
 
 import firebase from 'firebase/compat/app';
+import { getStorage } from 'firebase/storage';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
@@ -19,13 +20,16 @@ const firebaseConfig = {
 // Initialize Firebase
 
 //const analytics = firebase.getAnalytics(firebase.initializeApp(firebaseConfig));
-firebase.initializeApp(firebaseConfig)
+const firebaseApp = firebase.initializeApp(firebaseConfig)
 const auth = firebase.auth();
 const googleAuth = new firebase.auth.GoogleAuthProvider ();
 const facebookAuthProvider = new firebase.auth.FacebookAuthProvider ();
 
+// Get a reference to the storage service, which is used to create references in your storage bucket
+const storage = getStorage(firebaseApp);
+
 // Get a reference to the database service
  //const database = new firebase.getDatabase(firebase.initializeApp(firebaseConfig));
-export { auth, googleAuth, facebookAuthProvider}
+export { auth, googleAuth, facebookAuthProvider, storage}
 
-export default firebase;
+export default firebaseApp;
